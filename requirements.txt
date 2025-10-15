@@ -1,0 +1,11 @@
+Flask
+pandas
+joblib
+scikit-learn==1.5.1
+requests
+python-dotenv
+opendatasets
+cerebras_cloud_sdk
+pymongo
+transformers
+torch

@@ -1,0 +1,90 @@
+{
+    "rice": {
+        "description": "Rice is a staple food for a large part of the world's human population.",
+        "image": "rice.jpg"
+    },
+    "maize": {
+        "description": "Maize, also known as corn, is a cereal grain first domesticated by indigenous peoples in southern Mexico about 10,000 years ago.",
+        "image": "maize.jpg"
+    },
+    "chickpea": {
+        "description": "The chickpea or chick pea is an annual legume of the family Fabaceae, subfamily Faboideae.",
+        "image": "chickpea.jpg"
+    },
+    "kidneybeans": {
+        "description": "The kidney bean is a variety of the common bean. It is named for its visual resemblance in shape and colour to a kidney.",
+        "image": "kidneybeans.jpg"
+    },
+    "pigeonpeas": {
+        "description": "The pigeon pea is a perennial legume from the family Fabaceae.",
+        "image": "pigeonpeas.jpg"
+    },
+    "mothbeans": {
+        "description": "Moth bean is a drought-resistant legume grown in arid and semi-arid regions of India.",
+        "image": "mothbeans.jpg"
+    },
+    "mungbean": {
+        "description": "The mung bean is a plant species in the legume family.",
+        "image": "mungbean.jpg"
+    },
+    "blackgram": {
+        "description": "Black gram, also known as Urad dal, is a bean grown in the Indian subcontinent.",
+        "image": "blackgram.jpg"
+    },
+    "lentil": {
+        "description": "The lentil is an edible legume. It is an annual plant known for its lens-shaped seeds.",
+        "image": "lentil.jpg"
+    },
+    "pomegranate": {
+        "description": "The pomegranate is a fruit-bearing deciduous shrub in the family Lythraceae, subfamily Punicoideae.",
+        "image": "pomegranate.jpg"
+    },
+    "banana": {
+        "description": "A banana is an edible fruit – botanically a berry – produced by several kinds of large herbaceous flowering plants in the genus Musa.",
+        "image": "banana.jpg"
+    },
+    "mango": {
+        "description": "The mango is a juicy stone fruit produced from numerous species of tropical trees belonging to the flowering plant genus Mangifera, cultivated mostly for their edible fruit.",
+        "image": "mango.jpg"
+    },
+    "grapes": {
+        "description": "A grape is a fruit, botanically a berry, of the deciduous woody vines of the flowering plant genus Vitis.",
+        "image": "grapes.jpg"
+    },
+    "watermelon": {
+        "description": "Watermelon is a flowering plant species of the Cucurbitaceae family.",
+        "image": "watermelon.jpg"
+    },
+    "muskmelon": {
+        "description": "A muskmelon is any of several varieties of melon, Cucumis melo, in the family Cucurbitaceae.",
+        "image": "muskmelon.jpg"
+    },
+    "apple": {
+        "description": "The apple tree is a deciduous tree in the rose family best known for its sweet, pomaceous fruit, the apple.",
+        "image": "apple.jpg"
+    },
+    "orange": {
+        "description": "The orange is a fruit of various citrus species in the family Rutaceae.",
+        "image": "orange.jpg"
+    },
+    "papaya": {
+        "description": "Papaya is the fruit of the plant Carica papaya, a tropical fruit native to Mexico and Central America.",
+        "image": "papaya.jpg"
+    },
+    "coconut": {
+        "description": "The coconut tree is a member of the palm tree family and the only living species of the genus Cocos.",
+        "image": "coconut.jpg"
+    },
+    "cotton": {
+        "description": "Cotton is a soft, fluffy staple fiber that grows in a boll, or protective case, around the seeds of the cotton plants of the genus Gossypium.",
+        "image": "cotton.jpg"
+    },
+    "jute": {
+        "description": "Jute is a long, soft, shiny bast fiber that can be spun into coarse, strong threads.",
+        "image": "jute.jpg"
+    },
+    "coffee": {
+        "description": "Coffee is a brewed drink prepared from roasted coffee beans, the seeds of berries from certain Coffea species.",
+        "image": "coffee.jpg"
+    }
+}

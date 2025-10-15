@@ -1,0 +1,21 @@
+# Environment variables
+.env
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Machine learning models and scalers
+*.pkl
+
+# Datasets
+*.csv
+
+# IDE-specific files
+.vscode/
+
+# Other generated files
+app.py
+models.py
+pkl.py
+test.py

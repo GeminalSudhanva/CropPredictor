@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Weather Forecast{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="info-card">
+        <h2 class="mb-3 text-dark text-center">Current Weather</h2>
+        <form method="POST" class="row g-2 mb-3 justify-content-center">
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="city" placeholder="Enter city" value="{{ city or '' }}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+        {% if error %}
+            <div class="alert alert-danger mt-3 text-center">{{ error }}</div>
+        {% endif %}
+        {% if weather %}
+            <div class="card shadow-sm mt-4 text-start">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ weather.name }}, {{ weather.sys.country }}</h5>
+                    <p class="card-text mb-1"><strong>Condition:</strong> {{ weather.weather[0].main }} ({{ weather.weather[0].description }}) <img src="http://openweathermap.org/img/wn/{{ weather.weather[0].icon }}.png" alt="Weather icon"></p>
+                    <p class="card-text mb-1"><strong>Temperature:</strong> {{ weather.main.temp }} °C (feels like {{ weather.main.feels_like }} °C)</p>
+                    <p class="card-text mb-1"><strong>Humidity:</strong> {{ weather.main.humidity }}%</p>
+                    <p class="card-text"><strong>Wind:</strong> {{ weather.wind.speed }} m/s</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info mt-4 text-center" role="alert">Search a city to see current weather.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

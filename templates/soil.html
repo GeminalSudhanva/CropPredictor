@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Soil Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="info-card">
+        <h2 class="mb-4 text-dark text-center">Soil Health Details</h2>
+        {% if last_inputs %}
+        <div class="row g-3">
+            <div class="col-md-6 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">pH</h5>
+                        <p class="card-text fs-4 text-primary">{{ last_inputs.ph }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Nitrogen (N)</h5>
+                        <p class="card-text fs-4 text-primary">{{ last_inputs.N }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Phosphorus (P)</h5>
+                        <p class="card-text fs-4 text-primary">{{ last_inputs.P }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Potassium (K)</h5>
+                        <p class="card-text fs-4 text-primary">{{ last_inputs.K }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="text-muted mt-3 text-center">These values reflect your last submission.</p>
+        {% else %}
+        <div class="alert alert-info mt-4 text-center" role="alert">
+            No recent soil inputs found. Submit the form on the <a href="/recommendation" class="alert-link">recommendation page</a> first.
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

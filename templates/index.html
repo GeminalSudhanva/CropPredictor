@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Home - FarmConnect AI{% endblock %}
+
+{% block content %}
+    <header class="hero-section">
+        <div class="container text-center">
+            <h1>Welcome to FarmConnect AI</h1>
+            <p class="lead">Revolutionizing agriculture with intelligent crop and fertilizer recommendations.</p>
+            <a href="/crop_recommendation" class="btn btn-primary btn-lg">Get Crop Recommendation</a>
+        </div>
+    </header>
+
+    <section class="about-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>About FarmConnect AI</h2>
+                    <p>FarmConnect AI is an innovative platform designed to empower farmers with data-driven insights. Our advanced machine learning models analyze various environmental factors to provide precise recommendations for crop selection and fertilizer application, optimizing yield and promoting sustainable farming practices.</p>
+                    <p>We believe in leveraging technology to make farming more efficient, profitable, and environmentally friendly. Join us in cultivating a smarter future for agriculture.</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="{{ url_for('static', filename='images/farm_image.svg') }}" alt="Farm Image" class="img-fluid rounded shadow-sm">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section bg-light py-5">
+        <div class="container text-center">
+            <h2>Our Key Features</h2>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="feature-card p-4 border rounded shadow-sm mb-3">
+                        <h3>Crop Recommendation</h3>
+                        <p>Get personalized crop suggestions based on your soil type, climate, and other environmental parameters.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4 border rounded shadow-sm mb-3">
+                        <h3>Fertilizer Guidance</h3>
+                        <p>Receive optimal fertilizer recommendations to ensure healthy crop growth and maximize your harvest.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4 border rounded shadow-sm mb-3">
+                        <h3>Weather Insights</h3>
+                        <p>Stay informed with real-time weather data and forecasts to make timely farming decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section py-5 text-center text-white bg-primary">
+        <div class="container">
+            <h2>Ready to Transform Your Farm?</h2>
+            <p class="lead">Join FarmConnect AI today and start making smarter, data-driven decisions for a bountiful harvest.</p>
+            <a href="/crop_recommendation" class="btn btn-light btn-lg">Get Started Now</a>
+        </div>
+    </section>
+{% endblock %}

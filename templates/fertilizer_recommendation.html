@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Fertilizer Recommendation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="info-card">
+        <h2 class="text-center mb-4">Fertilizer Recommendation</h2>
+        <div class="feature-guidance mb-4">
+            <h4>Input Guidance:</h4>
+            <ul class="list-group">
+                {% for i in range(feature_info.feature_names|length) %}
+                    {% set name = feature_info.feature_names[i] %}
+                    {% set mean = feature_info.means[i] %}
+                    {% set std = feature_info.stds[i] %}
+                    {% set lower_bound = (mean - 3 * std)|round(2) %}
+                    {% set upper_bound = (mean + 3 * std)|round(2) %}
+                    <li class="list-group-item">
+                        <strong>{{ name }}:</strong> Mean = {{ mean|round(2) }}, Std Dev = {{ std|round(2) }}, Recommended Range = [{{ lower_bound }} to {{ upper_bound }}]
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <form id="fertilizer-recommendation-form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="Temperature" class="form-label">Temperature (°C):</label>
+                        <input type="number" step="0.01" class="form-control" id="Temperature" name="Temperature" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="Moisture" class="form-label">Moisture (%):</label>
+                        <input type="number" step="0.01" class="form-control" id="Moisture" name="Moisture" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="Rainfall" class="form-label">Rainfall (mm):</label>
+                        <input type="number" step="0.01" class="form-control" id="Rainfall" name="Rainfall" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="PH" class="form-label">pH:</label>
+                        <input type="number" step="0.01" class="form-control" id="PH" name="PH" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="Nitrogen" class="form-label">Nitrogen (N):</label>
+                        <input type="number" class="form-control" id="Nitrogen" name="Nitrogen" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="Phosphorous" class="form-label">Phosphorus (P):</label>
+                        <input type="number" class="form-control" id="Phosphorous" name="Phosphorous" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="Potassium" class="form-label">Potassium (K):</label>
+                        <input type="number" class="form-control" id="Potassium" name="Potassium" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="Carbon" class="form-label">Carbon (C):</label>
+                        <input type="number" step="0.01" class="form-control" id="Carbon" name="Carbon" required>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="Soil_Type" class="form-label">Soil Type:</label>
+                <select class="form-select" id="Soil_Type" name="Soil Type" required>
+                    <option value="Sandy">Sandy</option>
+                    <option value="Loamy">Loamy</option>
+                    <option value="Black">Black</option>
+                    <option value="Red">Red</option>
+                    <option value="Clayey">Clayey</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="Crop_Type" class="form-label">Crop Type:</label>
+                <select class="form-select" id="Crop_Type" name="Crop Type" required>
+                    <option value="Wheat">Wheat</option>
+                    <option value="Maize">Maize</option>
+                    <option value="Rice">Rice</option>
+                    <option value="Cotton">Cotton</option>
+                    <option value="Sugarcane">Sugarcane</option>
+                    <option value="Tobacco">Tobacco</option>
+                    <option value="Paddy">Paddy</option>
+                    <option value="Barley">Barley</option>
+                    <option value="Oil seeds">Oil seeds</option>
+                    <option value="Pulses">Pulses</option>
+                    <option value="Ground Nuts">Ground Nuts</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Get Fertilizer Recommendation</button>
+        </form>
+        <div id="fertilizer-prediction-result" class="mt-4">
+            <!-- Prediction result will be displayed here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('fertilizer-recommendation-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            if (key === "Soil Type" || key === "Crop Type") {
+                data[key] = value;
+            } else {
+                data[key] = parseFloat(value);
+            }
+        });
+
+        fetch('/predict_fertilizer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+            document.getElementById('fertilizer-prediction-result').innerHTML = `
+                <div class="alert alert-success" role="alert">
+                    <h4>Predicted Fertilizer:</h4>
+                    <p>${result.predicted_fertilizer}</p>
+                </div>
+            `;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('fertilizer-prediction-result').innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    Error getting fertilizer recommendation.
+                </div>
+            `;
+        });
+    });
+</script>
+{% endblock %}

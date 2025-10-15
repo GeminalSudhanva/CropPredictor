@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Results{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="info-card">
+            <h1 class="mb-4 text-dark text-center">📊 Prediction Results</h1>
+
+        {% if crop %}
+            <div class="alert alert-success mt-4" role="alert">
+                🌱 Recommended Crop: <strong class="text-success">{{ crop }}</strong>
+            </div>
+            {% if crop_info %}
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        {% if crop_info.image_url %}
+                            <img src="{{ crop_info.image_url }}" class="img-fluid rounded mb-3" alt="{{ crop_info.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <h4>About {{ crop_info.name }}:</h4>
+                        <p>{{ crop_info.description }}</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if fertilizer_reco %}
+                <div class="alert alert-info mt-4" role="alert">
+                    ✨ Fertilizer Recommendation: <strong class="text-info">{{ fertilizer_reco }}</strong>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-warning mt-4" role="alert">
+                No prediction results to display. Please go back to the <a href="/recommendation">Crop Recommendation</a> page to make a prediction.
+            </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="/dashboard" class="btn btn-secondary me-2">Go to Dashboard</a>
+            <a href="/recommendation" class="btn btn-primary">Make Another Prediction</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

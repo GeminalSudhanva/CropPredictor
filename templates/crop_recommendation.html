@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Crop Recommendation{% endblock %}
+
+{% block content %}
+<div class="info-card">
+    <h2 class="text-center mb-4">Crop Recommendation</h2>
+    <form id="crop-recommendation-form">
+        <div class="mb-3">
+            <label for="N" class="form-label">Nitrogen (N):</label>
+            <input type="number" class="form-control" id="N" name="N" required>
+        </div>
+        <div class="mb-3">
+            <label for="P" class="form-label">Phosphorus (P):</label>
+            <input type="number" class="form-control" id="P" name="P" required>
+        </div>
+        <div class="mb-3">
+            <label for="K" class="form-label">Potassium (K):</label>
+            <input type="number" class="form-control" id="K" name="K" required>
+        </div>
+        <div class="mb-3">
+            <label for="temperature" class="form-label">Temperature (°C):</label>
+            <input type="number" step="0.01" class="form-control" id="temperature" name="temperature" required>
+        </div>
+        <div class="mb-3">
+            <label for="humidity" class="form-label">Humidity (%):</label>
+            <input type="number" step="0.01" class="form-control" id="humidity" name="humidity" required>
+        </div>
+        <div class="mb-3">
+            <label for="ph" class="form-label">pH:</label>
+            <input type="number" step="0.01" class="form-control" id="ph" name="ph" required>
+        </div>
+        <div class="mb-3">
+            <label for="rainfall" class="form-label">Rainfall (mm):</label>
+            <input type="number" step="0.01" class="form-control" id="rainfall" name="rainfall" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Get Crop Recommendation</button>
+    </form>
+    <div id="crop-prediction-result" class="mt-4">
+        <!-- Prediction result will be displayed here -->
+    </div>
+
+    <div class="feature-guidance mt-4">
+        <h4>Feature Input Guidance (Mean ± 3 Standard Deviations):</h4>
+        <ul id="feature-ranges">
+            {% for i in range(feature_info.feature_names|length) %}
+                <li>
+                    {{ feature_info.feature_names[i] }}:
+                    Mean: {{ "%.2f" % feature_info.means[i] }},
+                    Std Dev: {{ "%.2f" % feature_info.stds[i] }}
+                    (Range: {{ "%.2f" % (feature_info.means[i] - 3 * feature_info.stds[i]) }} to {{ "%.2f" % (feature_info.means[i] + 3 * feature_info.stds[i]) }})
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    document.getElementById('crop-recommendation-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = parseFloat(value);
+        });
+
+        fetch('/predict_crop', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+            document.getElementById('crop-prediction-result').innerHTML = `
+                <div class="success-box">
+                    <h4>Predicted Crop:</h4>
+                    <p>${result.predicted_crop}</p>
+                </div>
+            `;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('crop-prediction-result').innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    Error getting crop recommendation.
+                </div>
+            `;
+        });
+    });
+</script>
+{% endblock %}

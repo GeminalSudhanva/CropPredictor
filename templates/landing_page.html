@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Revolutionizing Agriculture with Smart Crop Recommendations{% endblock %}
+
+{% block content %}
+    <header class="hero-section text-center d-flex align-items-center justify-content-center">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-4 gradient-text">Revolutionizing Agriculture with Smart Crop Recommendations</h1>
+            <p class="lead mb-5 gradient-text">Empowering farmers with data-driven insights to choose the best crops for optimal yield and profitability.</p>
+            <a href="/recommendation" class="btn btn-success btn-lg px-5 py-3 rounded-pill text-white">Get Your Crop Recommendation Now!</a>
+        </div>
+    </header>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold text-dark">How It Works</h2>
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <div class="fs-1 text-primary mb-3">Gather Data</div>
+                            <h5 class="card-title fw-bold">Input Your Farm's Details</h5>
+                            <p class="card-text">Provide essential information about your soil (N, P, K, pH) and local climate (temperature, humidity, rainfall).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <div class="fs-1 text-primary mb-3">Analyze & Predict</div>
+                            <h5 class="card-title fw-bold">Advanced AI at Your Service</h5>
+                            <p class="card-text">Our powerful machine learning model processes your data to identify the most suitable crops for your specific conditions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <div class="fs-1 text-primary mb-3">Get Recommendations</div>
+                            <h5 class="card-title fw-bold">Receive Personalized Advice</h5>
+                            <p class="card-text">Instantly get a precise crop recommendation, helping you make informed decisions for better agricultural outcomes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold text-dark">Why Choose Smart Crop?</h2>
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon fs-1 text-success mb-3">💡</div>
+                    <h3 class="fw-bold">Smart Insights</h3>
+                    <p>Utilize advanced machine learning to get precise crop suggestions based on your unique soil and weather conditions.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon fs-1 text-success mb-3">📈</div>
+                    <h3 class="fw-bold">Maximized Yield</h3>
+                    <p>Increase your farm's productivity and ensure higher returns with optimal crop choices.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon fs-1 text-success mb-3">🌍</div>
+                    <h3 class="fw-bold">Sustainable Farming</h3>
+                    <p>Make informed decisions that contribute to sustainable agricultural practices and environmental health.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-primary text-white text-center">
+        <div class="container">
+            <h2 class="display-4 fw-bold mb-4">Ready to Transform Your Farm?</h2>
+            <p class="lead mb-5">Join hundreds of farmers who are already boosting their yields and profitability with Smart Crop recommendations.</p>
+            <a href="/recommendation" class="btn btn-light btn-lg px-5 py-3 rounded-pill text-primary fw-bold">Start Your Journey Today!</a>
+        </div>
+    </section>
+{% endblock %}
+
+<style>
+    .hero-section {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://via.placeholder.com/1500x800/28a745/ffffff?text=Farming+Background') no-repeat center center/cover;
+        height: 100vh;
+    }
+
+    .gradient-text {
+        background: linear-gradient(to right, #a8e063, #56ab2f, #3a7bd5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent; /* Fallback for browsers that don't support -webkit-text-fill-color */
+    }
+</style>

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Farmer Dashboard{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="mb-4 text-dark text-center">Welcome, Farmer!</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-center mb-3 shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">Latest Recommendation</div>
+                    <div class="card-body">
+                        <h5 class="card-title text-success">{{ last_recommendation.predicted_crop if last_recommendation else 'No recommendation yet' }}</h5>
+                        <p class="card-text text-muted">Based on your latest inputs.</p>
+                        <a href="/recommendation" class="btn btn-success mt-2">Get New Recommendation</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center mb-3 shadow-sm h-100">
+                    <div class="card-header bg-info text-white">Soil Health Summary</div>
+                    <div class="card-body">
+                        {% if last_inputs %}
+                        <h5 class="card-title">pH: <span class="text-primary">{{ last_inputs.ph }}</span>, N: <span class="text-primary">{{ last_inputs.N }} ppm</span>, P: <span class="text-primary">{{ last_inputs.P }} ppm</span>, K: <span class="text-primary">{{ last_inputs.K }} ppm</span></h5>
+                        {% else %}
+                        <h5 class="card-title text-muted">No recent soil data</h5>
+                        {% endif %}
+                        <p class="card-text text-muted">Soil health from your last submission.</p>
+                        <a href="/soil" class="btn btn-outline-primary mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center mb-3 shadow-sm h-100">
+                    <div class="card-header bg-warning text-white">Weather Forecast</div>
+                    <div class="card-body">
+                        {% if weather_data %}
+                        <h5 class="card-title text-dark">{{ weather_data.temperature }}°C, {{ weather_data.humidity }}% Humidity</h5>
+                        <p class="card-text text-muted">Live data for London.</p>
+                        {% else %}
+                        <h5 class="card-title text-muted">Weather data not available</h5>
+                        <p class="card-text text-muted">Could not fetch live weather for London.</p>
+                        {% endif %}
+                        <a href="/weather" class="btn btn-outline-warning mt-2">Full Forecast</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-secondary text-white">Farm Overview</div>
+                    <div class="card-body">
+
+                        <h4>Irrigation Schedule</h4>
+                        {% if irrigation_schedule %}
+                            <p><strong>Start Time:</strong> {{ irrigation_schedule.start_time }}</p>
+                            <p><strong>End Time:</strong> {{ irrigation_schedule.end_time }}</p>
+                            <p><strong>Duration:</strong> {{ irrigation_schedule.duration_minutes }} minutes</p>
+                            <p><strong>Frequency:</strong> {{ irrigation_schedule.frequency }}</p>
+                            <p class="text-muted">Last updated: {{ irrigation_schedule.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        {% else %}
+                            <p class="card-text text-muted">No irrigation schedule available.</p>
+                        {% endif %}
+                        <a href="/irrigation" class="btn btn-outline-secondary mt-2">Set/View Schedule</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
