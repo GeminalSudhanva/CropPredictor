@@ -2,7 +2,8 @@
   "builds": [
     {
       "src": "flask_app.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": { "pythonVersion": "3.9" }
     }
   ],
   "routes": [
@@ -10,5 +11,20 @@
       "src": "/(.*)",
       "dest": "flask_app.py"
     }
+  ],
+  "excludeFiles": [
+    "**/__pycache__/**",
+    "**/.venv/**",
+    "**/.git/**",
+    "**/*.pyc",
+    "**/*.log",
+    "**/tmp/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/docs/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/node_modules/**",
+    "**/venv/**"
   ]
 }
