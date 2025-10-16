@@ -1,0 +1,6 @@
+*.pkl
+FertilizerDatset/
+Prototype/
+train_and_save_fertilizer_preprocessing_models.py
+import_data_to_mongodb.py
+Crop_prediction_model.py
