@@ -20,11 +20,11 @@
         </div>
         <div class="mb-3">
             <label for="temperature" class="form-label">Temperature (°C):</label>
-            <input type="number" step="0.01" class="form-control" id="temperature" name="temperature" required>
+            <input type="number" step="0.01" class="form-control" id="temperature" name="temperature" required value="{{ last_searched_weather.temperature if last_searched_weather else '' }}">
         </div>
         <div class="mb-3">
             <label for="humidity" class="form-label">Humidity (%):</label>
-            <input type="number" step="0.01" class="form-control" id="humidity" name="humidity" required>
+            <input type="number" step="0.01" class="form-control" id="humidity" name="humidity" required value="{{ last_searched_weather.humidity if last_searched_weather else '' }}">
         </div>
         <div class="mb-3">
             <label for="ph" class="form-label">pH:</label>

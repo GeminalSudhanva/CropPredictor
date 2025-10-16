@@ -2,7 +2,7 @@ import json
 import os
 import logging
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from models import CropPredictor, FertilizerPredictor
 from pymongo import MongoClient
 import requests
@@ -106,7 +106,8 @@ def crop_recommendation():
         'stds': crop_predictor.feature_stds.tolist(),
         'feature_names': ['Nitrogen', 'Phosphorus', 'Potassium', 'Temperature', 'Humidity', 'pH', 'Rainfall']
     }
-    return render_template('crop_recommendation.html', feature_info=feature_info)
+    last_searched_weather = session.get('last_searched_weather')
+    return render_template('crop_recommendation.html', feature_info=feature_info, last_searched_weather=last_searched_weather)
 
 @app.route('/predict_crop', methods=['POST'])
 def predict_crop():
@@ -231,6 +232,10 @@ def weather():
 
                 if response.status_code == 200 and 'current' in data:
                     weather_data = data
+                    session['last_searched_weather'] = {
+                        'temperature': data['current']['temp_c'],
+                        'humidity': data['current']['humidity']
+                    }
                 else:
                     # WeatherAPI error object
                     error_obj = data.get("error", {}) if isinstance(data, dict) else {}
