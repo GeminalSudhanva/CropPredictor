@@ -5,6 +5,7 @@ from datetime import datetime
 from flask import Flask, render_template, request, jsonify
 from models import CropPredictor, FertilizerPredictor
 from pymongo import MongoClient
+import requests
 
 app = Flask(__name__)
 
@@ -34,13 +35,19 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['WEATHERAPI_KEY'] = os.getenv('WEATHERAPI_KEY', '')
 
 crop_predictor = CropPredictor(
-    model_path='crop_recommendation_model.pkl',
-    scaler_path='scaler.pkl',
-    le_path='label_encoder.pkl'
+    model_url='https://raw.githubusercontent.com/GeminalSudhanva/CropPredictor/main/crop_recommendation_model.pkl',
+    scaler_url='https://raw.githubusercontent.com/GeminalSudhanva/CropPredictor/main/scaler.pkl',
+    le_url='https://raw.githubusercontent.com/GeminalSudhanva/CropPredictor/main/label_encoder.pkl'
 )
 app.logger.info(f"CropPredictor Feature Means: {crop_predictor.feature_means}")
 app.logger.info(f"CropPredictor Feature Standard Deviations: {crop_predictor.feature_stds}")
-fertilizer_predictor = FertilizerPredictor()
+fertilizer_predictor = FertilizerPredictor(
+    model_url='https://raw.githubusercontent.com/GeminalSudhanva/CropPredictor/main/fertilizer_model.pkl',
+    scaler_url='https://raw.githubusercontent.com/GeminalSudhanva/CropPredictor/main/fertilizer_scaler.pkl',
+    le_soil_url='https://raw.githubusercontent.com/GeminalSudhanva/CropPredictor/main/fertilizer_le_soil.pkl',
+    le_crop_url='https://raw.githubusercontent.com/GeminalSudhanva/CropPredictor/main/fertilizer_le_crop.pkl',
+    le_fertilizer_url='https://raw.githubusercontent.com/GeminalSudhanva/CropPredictor/main/fertilizer_le_fertilizer.pkl'
+)
 app.logger.info(f"FertilizerPredictor Feature Means: {fertilizer_predictor.feature_means}")
 app.logger.info(f"FertilizerPredictor Feature Standard Deviations: {fertilizer_predictor.feature_stds}")
 
