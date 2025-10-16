@@ -80,14 +80,14 @@
 
 <style>
     .hero-section {
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://via.placeholder.com/1500x800/28a745/ffffff?text=Farming+Background') no-repeat center center/cover;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ url_for('static', filename='images/hero.jpg') }}') no-repeat center center/cover;
         height: 100vh;
     }
 
     .gradient-text {
         background: linear-gradient(to right, #a8e063, #56ab2f, #3a7bd5);
         -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        -webkit-text-fill-color: transparent;+
         background-clip: text;
         color: transparent; /* Fallback for browsers that don't support -webkit-text-fill-color */
     }

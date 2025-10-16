@@ -1,6 +1,6 @@
 body {
 .hero-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero_bg.svg') no-repeat center center;
+    background: url('../images/hero.jpg') no-repeat center center;
     background-size: cover;
     color: white;
     padding: 100px 0;

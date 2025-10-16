@@ -20,11 +20,16 @@
         {% if weather %}
             <div class="card shadow-sm mt-4 text-start">
                 <div class="card-body">
-                    <h5 class="card-title text-primary">{{ weather.name }}, {{ weather.sys.country }}</h5>
-                    <p class="card-text mb-1"><strong>Condition:</strong> {{ weather.weather[0].main }} ({{ weather.weather[0].description }}) <img src="http://openweathermap.org/img/wn/{{ weather.weather[0].icon }}.png" alt="Weather icon"></p>
-                    <p class="card-text mb-1"><strong>Temperature:</strong> {{ weather.main.temp }} °C (feels like {{ weather.main.feels_like }} °C)</p>
-                    <p class="card-text mb-1"><strong>Humidity:</strong> {{ weather.main.humidity }}%</p>
-                    <p class="card-text"><strong>Wind:</strong> {{ weather.wind.speed }} m/s</p>
+                    {# WeatherAPI response structure: { location: {...}, current: {...} } #}
+                    <h5 class="card-title text-primary">{{ weather.location.name }}, {{ weather.location.country }}</h5>
+                    <p class="card-text mb-1">
+                        <strong>Condition:</strong>
+                        {{ weather.current.condition.text }}
+                        <img src="https:{{ weather.current.condition.icon }}" alt="Weather icon">
+                    </p>
+                    <p class="card-text mb-1"><strong>Temperature:</strong> {{ weather.current.temp_c }} °C (feels like {{ weather.current.feelslike_c }} °C)</p>
+                    <p class="card-text mb-1"><strong>Humidity:</strong> {{ weather.current.humidity }}%</p>
+                    <p class="card-text"><strong>Wind:</strong> {{ weather.current.wind_kph }} kph</p>
                 </div>
             </div>
         {% else %}

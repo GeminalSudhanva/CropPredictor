@@ -1,4 +1,5 @@
 import json
+import os
 import logging
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify
@@ -29,7 +30,8 @@ import traceback
 import pandas as pd
 
 app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['OPENWEATHER_API_KEY'] = 'YOUR_OPENWEATHER_API_KEY' # Replace with your actual API key
+# Read WeatherAPI key from environment variable to avoid hardcoding
+app.config['WEATHERAPI_KEY'] = os.getenv('WEATHERAPI_KEY', '')
 
 crop_predictor = CropPredictor(
     model_path='crop_recommendation_model.pkl',
@@ -43,19 +45,37 @@ app.logger.info(f"FertilizerPredictor Feature Means: {fertilizer_predictor.featu
 app.logger.info(f"FertilizerPredictor Feature Standard Deviations: {fertilizer_predictor.feature_stds}")
 
 def get_weather_data(city):
-    api_key = app.config['OPENWEATHER_API_KEY']
-    base_url = "http://api.openweathermap.org/data/2.5/weather?"
-    complete_url = f"{base_url}q={city}&appid={api_key}&units=metric"
-    response = requests.get(complete_url)
-    data = response.json()
+    api_key = app.config['WEATHERAPI_KEY']
+    if not api_key:
+        app.logger.error("WEATHERAPI_KEY is not set. Set the environment variable and restart.")
+        return None
 
-    if data.get("cod") == 200:
-        main = data["main"]
-        temperature = main["temp"]
-        humidity = main["humidity"]
-        return {"temperature": temperature, "humidity": humidity}
-    else:
-        print(f"Error fetching weather data: {data.get('message', 'Unknown error')}")
+    base_url = "https://api.weatherapi.com/v1/current.json"
+    params = {"key": api_key, "q": city, "aqi": "no"}
+
+    try:
+        response = requests.get(base_url, params=params, timeout=10)
+        data = response.json() if response.headers.get('Content-Type', '').startswith('application/json') else {}
+
+        if response.status_code == 200 and 'current' in data:
+            current = data["current"]
+            temperature = current.get("temp_c")
+            humidity = current.get("humidity")
+            return {"temperature": temperature, "humidity": humidity}
+
+        # WeatherAPI error structure: {"error": {"code": xxx, "message": "..."}}
+        error_obj = data.get("error", {}) if isinstance(data, dict) else {}
+        error_message = error_obj.get("message") or data.get('message', 'Unknown error')
+        if response.status_code in (400, 401) and error_message and "api key" in error_message.lower():
+            app.logger.error("WeatherAPI authentication failed: Invalid API key.")
+        else:
+            app.logger.error(f"Error fetching weather data ({response.status_code}): {error_message}")
+        return None
+    except requests.Timeout:
+        app.logger.error("WeatherAPI request timed out.")
+        return None
+    except requests.RequestException as e:
+        app.logger.error(f"WeatherAPI request error: {e}")
         return None
 
 def load_crop_details():
@@ -192,16 +212,27 @@ def weather():
     error = None
 
     if request.method == 'POST' and city:
-        api_key = app.config['OPENWEATHER_API_KEY']
-        base_url = "http://api.openweathermap.org/data/2.5/weather?"
-        complete_url = f"{base_url}q={city}&appid={api_key}&units=metric"
-        response = requests.get(complete_url)
-        data = response.json()
-
-        if data.get("cod") == 200:
-            weather_data = data
+        api_key = app.config['WEATHERAPI_KEY']
+        if not api_key:
+            error = "WeatherAPI key not configured. Set WEATHERAPI_KEY environment variable."
         else:
-            error = f"Error fetching weather data: {data.get('message', 'Unknown error')}"
+            base_url = "https://api.weatherapi.com/v1/current.json"
+            params = {"key": api_key, "q": city, "aqi": "no"}
+            try:
+                response = requests.get(base_url, params=params, timeout=10)
+                data = response.json() if response.headers.get('Content-Type', '').startswith('application/json') else {}
+
+                if response.status_code == 200 and 'current' in data:
+                    weather_data = data
+                else:
+                    # WeatherAPI error object
+                    error_obj = data.get("error", {}) if isinstance(data, dict) else {}
+                    message = error_obj.get("message") or data.get('message', 'Unknown error')
+                    error = f"Error fetching weather data ({response.status_code}): {message}"
+            except requests.Timeout:
+                error = "Weather service timeout. Please try again."
+            except requests.RequestException as e:
+                error = f"Weather service error: {e}"
     elif request.method == 'POST' and not city:
         error = "Please enter a city name."
 
@@ -211,11 +242,7 @@ def weather():
 def results():
     crop = request.args.get('crop')
     fertilizer_reco = request.args.get('fertilizer_reco')
-    crop_info = None
-    if crop:
-        crop_details = load_crop_details()
-        crop_info = crop_details.get(crop.lower())
-    return render_template('results.html', crop=crop, fertilizer_reco=fertilizer_reco, crop_info=crop_info)
+    return render_template('results.html', crop=crop, fertilizer_reco=fertilizer_reco)
 
 @app.route('/api/unique_crops')
 def unique_crops():
